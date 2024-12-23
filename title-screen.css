@@ -1,0 +1,315 @@
+/* Base styles and resets */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Ancient Hylian', sans-serif; /* You'll need to import your fonts */
+    color: #fff;
+    overflow: hidden;
+    height: 100vh;
+    background: #000;
+}
+
+/* Video background styling */
+.video-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
+#bgVideo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.video-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+}
+
+/* Title screen content */
+.title-screen {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+}
+
+.game-title {
+    font-size: 4rem;
+    margin-bottom: 4rem;
+    text-shadow: 0 0 10px rgba(51, 204, 255, 0.8);
+    animation: titleGlow 2s infinite alternate;
+}
+
+/* Menu styling */
+.menu-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.5s ease;
+}
+
+.menu-container.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.menu-button {
+    background: none;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    color: #fff;
+    padding: 1rem 3rem;
+    font-size: 1.5rem;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.menu-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: rgba(51, 204, 255, 0.2);
+    transition: transform 0.3s ease;
+}
+
+.menu-button:hover::before {
+    transform: translateX(100%);
+}
+
+.menu-button:hover {
+    border-color: #33ccff;
+    text-shadow: 0 0 5px #33ccff;
+}
+
+/* Press prompt styling */
+.press-prompt {
+    position: absolute;
+    bottom: 2rem;
+    font-size: 1.2rem;
+    opacity: 0;
+    animation: fadeInOut 2s infinite;
+}
+
+/* Options and Credits screens */
+.options-menu,
+.credits-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    transition: opacity 0.3s ease;
+}
+
+.hidden {
+    display: none;
+    opacity: 0;
+}
+
+/* Animations */
+@keyframes titleGlow {
+    from {
+        text-shadow: 0 0 10px rgba(51, 204, 255, 0.8);
+    }
+    to {
+        text-shadow: 0 0 20px rgba(51, 204, 255, 1);
+    }
+}
+
+@keyframes fadeInOut {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 1; }
+}
+
+/* Options and Credits styling */
+.options-menu,
+.credits-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.95);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+.options-menu.active,
+.credits-screen.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.options-content,
+.credits-content {
+    background: rgba(51, 204, 255, 0.1);
+    border: 2px solid rgba(51, 204, 255, 0.3);
+    border-radius: 10px;
+    padding: 2rem;
+    width: 90%;
+    max-width: 600px;
+    position: relative;
+    transform: translateY(20px);
+    opacity: 0;
+    transition: transform 0.5s ease, opacity 0.5s ease;
+}
+
+.active .options-content,
+.active .credits-content {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+/* Option groups styling */
+.option-group {
+    margin: 2rem 0;
+}
+
+.option-group h3 {
+    color: var(--primary-blue);
+    margin-bottom: 1rem;
+    font-family: 'Ancient Hylian', sans-serif;
+}
+
+/* Volume slider styling */
+.volume-slider {
+    width: 100%;
+    height: 4px;
+    background: rgba(51, 204, 255, 0.3);
+    border-radius: 2px;
+    outline: none;
+}
+
+.volume-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    background: var(--primary-blue);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.volume-slider::-webkit-slider-thumb:hover {
+    transform: scale(1.2);
+}
+
+/* Toggle switch styling */
+.toggle-switch {
+    position: relative;
+    width: 60px;
+    height: 34px;
+}
+
+.toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.toggle-switch label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(51, 204, 255, 0.3);
+    border-radius: 34px;
+    cursor: pointer;
+    transition: 0.4s;
+}
+
+.toggle-switch label:before {
+    content: '';
+    position: absolute;
+    width: 26px;
+    height: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    border-radius: 50%;
+    transition: 0.4s;
+}
+
+.toggle-switch input:checked + label {
+    background-color: var(--primary-blue);
+}
+
+.toggle-switch input:checked + label:before {
+    transform: translateX(26px);
+}
+
+/* Language selector styling */
+.language-selector {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 1rem;
+}
+
+.language-btn {
+    background: none;
+    border: 2px solid rgba(51, 204, 255, 0.3);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.language-btn:hover {
+    border-color: var(--primary-blue);
+    background: rgba(51, 204, 255, 0.1);
+}
+
+.language-btn.active {
+    background: var(--primary-blue);
+    border-color: var(--primary-blue);
+}
+
+/* Page transition animation */
+.page-transition {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: black;
+    z-index: 1000;
+    transform: translateY(100%);
+    transition: transform 0.5s ease;
+}
+
+.page-transition.active {
+    transform: translateY(0%);
+}
