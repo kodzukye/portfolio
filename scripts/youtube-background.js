@@ -3,12 +3,12 @@ let videoLoaded = false;
 
 function onYouTubeIframeAPIReady() {
     player = new YT.Player('youtube-background', {
-        videoId: '4HlEiocsR8M', // Your YouTube video ID
+        videoId: '4HlEiocsR8M', // YouTube video ID
         playerVars: {
             autoplay: 1,
             controls: 0,
             disablekb: 1,
-            fs: 0,
+            fs: 1,
             iv_load_policy: 3,
             loop: 1,
             modestbranding: 1,
@@ -16,7 +16,6 @@ function onYouTubeIframeAPIReady() {
             rel: 0,
             showinfo: 0,
             mute: 1,
-            // Request highest quality possible
             vq: 'hd1080'
         },
         events: {
@@ -28,11 +27,9 @@ function onYouTubeIframeAPIReady() {
 }
 
 function onPlayerReady(event) {
-    // Force highest quality
     player.setPlaybackQuality('hd1080');
     event.target.playVideo();
     
-    // Create a playlist with the same video to enable true looping
     player.loadPlaylist({
         playlist: ['4HlEiocsR8M'],
         listType: 'playlist'
