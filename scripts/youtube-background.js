@@ -1,14 +1,43 @@
 let player;
 let videoLoaded = false;
 
-function onYouTubeIframeAPIReady() {
+function initializePlayer() {
+    // Detect mobile devices
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    
     player = new YT.Player('youtube-background', {
-        videoId: '4HlEiocsR8M', // YouTube video ID
+        videoId: '4HlEiocsR8M',
         playerVars: {
             autoplay: 1,
             controls: 0,
             disablekb: 1,
-            fs: 1,
+            fs: 0,
+            iv_load_policy: 3,
+            loop: 1,
+            modestbranding: 1,
+            playsinline: 1, // Essential for iOS
+            rel: 0,
+            showinfo: 0,
+            mute: 1,
+            // Adjust quality based on device
+            vq: isMobile ? 'hd720' : 'hd1080'
+        },
+        events: {
+            'onReady': onPlayerReady,
+            'onStateChange': onPlayerStateChange,
+            'onPlaybackQualityChange': onQualityChange
+        }
+    });
+}
+
+function onYouTubeIframeAPIReady() {
+    player = new YT.Player('youtube-background', {
+        videoId: '4HlEiocsR8M', // Your YouTube video ID
+        playerVars: {
+            autoplay: 1,
+            controls: 0,
+            disablekb: 1,
+            fs: 0,
             iv_load_policy: 3,
             loop: 1,
             modestbranding: 1,
@@ -16,6 +45,7 @@ function onYouTubeIframeAPIReady() {
             rel: 0,
             showinfo: 0,
             mute: 1,
+            // Request highest quality possible
             vq: 'hd1080'
         },
         events: {
@@ -27,9 +57,11 @@ function onYouTubeIframeAPIReady() {
 }
 
 function onPlayerReady(event) {
+    // Force highest quality
     player.setPlaybackQuality('hd1080');
     event.target.playVideo();
     
+    // Create a playlist with the same video to enable true looping
     player.loadPlaylist({
         playlist: ['4HlEiocsR8M'],
         listType: 'playlist'
@@ -72,6 +104,67 @@ function handleKeyPress(e) {
     }
 }
 
+// We'll store the video's aspect ratio (16:9 is standard for YouTube)
+const VIDEO_ASPECT_RATIO = 16/9;
+
+function resizeVideo() {
+    const container = document.querySelector('.video-container');
+    const iframe = document.querySelector('#youtube-background iframe');
+    
+    if (!container || !iframe) return;
+
+    // Get the container's dimensions
+    const containerWidth = container.offsetWidth;
+    const containerHeight = container.offsetHeight;
+    const containerAspectRatio = containerWidth / containerHeight;
+
+    let width, height, scale;
+
+    // If container is wider than video aspect ratio
+    if (containerAspectRatio > VIDEO_ASPECT_RATIO) {
+        width = containerWidth;
+        height = containerWidth / VIDEO_ASPECT_RATIO;
+        // Calculate how much we need to scale up to cover any gaps
+        scale = (containerHeight / height) * 1.1; // Add 10% to ensure no gaps
+    } else {
+        height = containerHeight;
+        width = containerHeight * VIDEO_ASPECT_RATIO;
+        // Calculate how much we need to scale up to cover any gaps
+        scale = (containerWidth / width) * 1.1; // Add 10% to ensure no gaps
+    }
+
+    // Apply the calculated dimensions and scale
+    iframe.style.width = `${width}px`;
+    iframe.style.height = `${height}px`;
+    iframe.style.transform = `translate(-50%, -50%) scale(${scale})`;
+}
+
+// Update our YouTube player initialization to include resize handling
+function onPlayerReady(event) {
+    // Previous initialization code remains the same
+    player.setPlaybackQuality('hd1080');
+    event.target.playVideo();
+    
+    // Initial resize
+    resizeVideo();
+    
+    // Add resize listener
+    window.addEventListener('resize', debounce(resizeVideo, 250));
+}
+
+// Debounce function to prevent too many resize calculations
+function debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+        const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+    };
+}
+
 // Initialize everything when the page loads
 document.addEventListener('DOMContentLoaded', () => {
     // Create script tag for YouTube API
@@ -83,4 +176,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // Add a loading indicator if needed
     const videoContainer = document.querySelector('.video-container');
     videoContainer.insertAdjacentHTML('beforeend', '<div class="loading">Loading...</div>');
+
+    // Handle orientation changes on mobile devices
+    window.addEventListener('orientationchange', () => {
+        setTimeout(resizeVideo, 100); // Short delay to allow orientation to complete
+    });
 });
+
