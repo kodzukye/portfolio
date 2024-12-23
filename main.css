@@ -1,0 +1,422 @@
+@import url(../assets/fonts/fonts.css);
+@import url(../styles/animations/glitch-text.css);
+
+/* Reminder */
+/* haut | droit | bas | gauche */
+
+/* Color variables inspired by Zelda BOTW Sheikah tech and cyberpunk neons */
+:root {
+    /* Colors */
+    --primary-blue: #33ccff;
+    --secondary-pink: #ff0066;
+    --accent-gold: #ffd700;
+    --orange-color: #ff9900;
+    --secondary-purple: #330066;
+    --bg-dark: #0A0A0A;
+    --text-light: #FFFFFF;
+
+}
+
+/* Base styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: var(--zelda-oracles);
+}
+
+body {
+    background-color: var(--bg-dark);
+}
+
+/* Hero section with diagonal split like Deadpool example */
+.hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+    width: 100%;
+    background: linear-gradient(135deg, transparent 49.9%, var(--secondary-purple) 50%);
+    z-index: 0;
+    opacity: 0.2;
+}
+
+/* Navigation */
+.nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 100;
+    background: rgba(10, 10, 10, 0.8);
+    backdrop-filter: blur(10px);
+}
+
+.nav-logo {
+    font-size: 2rem;
+    font-family: var(--botw-sheikah);
+    color: var(--primary-blue);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    animation: var(--glitch-text) 5s linear infinite;
+    text-shadow: 0 0 10px rgba(64, 226, 255, 0.5);
+}
+
+.nav-links {
+    display: flex;
+    gap: 2rem;
+}
+
+.nav-links a {
+    color: var(--text-light);
+    text-decoration: none;
+    position: relative;
+    padding: 0.5rem 0;
+    font-family: var(--zelda-oracles);
+}
+
+.nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--primary-blue);
+    transition: width 0.3s ease;
+}
+
+.nav-links a:hover::after {
+    width: 100%;
+}
+
+/* Hero content */
+.hero-content {
+    padding: 2rem 4rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1rem;
+    position: relative;
+    z-index: 2;
+}
+
+.hero-title {
+    font-size: 4rem;
+    font-family: var(--triforce);
+    line-height: 1.2;
+    color: var(--primary-blue);
+    text-shadow: 0 0 10px rgba(64, 226, 255, 0.5);
+}
+
+.hero-hylian-subtitle {
+    font-size: 1.7rem;
+    font-family: var(--ancient-hylian);
+    line-height: 1.2;
+    color: var(--accent-gold);
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.502);
+    text-align: justify;
+}
+
+.hero-subtitle {
+    font-size: 1.3rem;
+    font-family: var(--zelda-oracles);
+    max-width: 600px;
+    margin-bottom: 2rem;
+    text-align: justify;
+}
+
+.flickering {
+    font-family: var(--reggae);
+    animation: var(--text-in-visible) 1.5s linear infinite;
+}
+
+.midna-images::after {
+    gap: -1;
+}
+
+.small-midna {
+    height: 40rem;
+    width: auto;
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+    margin-right: -2.5rem;
+    margin-left: 6rem;
+}
+
+.small-midna::after {
+    z-index: 222;
+}
+
+.big-midna {
+    height: 50rem;
+    width: 25rem;
+    padding-top: 6.5rem;
+    object-fit: cover;
+    object-position: 0 0%;
+    z-index: 333;
+    margin-left: -2.5rem;
+}
+
+.big-midna::after {
+    z-index: 111;
+}
+
+.cta-button {
+    font-family: var(--botw-sheikah);
+    display: inline-block;
+    padding: 1rem 2rem;
+    background: var(--secondary-pink);
+    color: var(--bg-dark);
+    text-decoration: none;
+    border-radius: 4px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    border: 2px solid var(--secondary-pink);
+    position: relative;
+    overflow: hidden;
+}
+
+.cta-button:hover {
+    background: transparent;
+    font-family: var(--zelda-oracles);
+    color: var(--secondary-pink);
+}
+
+.cta-button:hover::before {
+    font-family: var(--botw-sheikah);
+}
+
+.cta-button:hover::after {
+    font-family: var(--zelda-oracles);
+}
+
+/* Decorative elements */
+.sheikah-symbol {
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    opacity: 0.1;
+    right: -150px;
+    bottom: -150px;
+    border: 2px solid var(--primary-blue);
+    border-radius: 50%;
+    animation: rotate 20s linear infinite;
+    font-family: var(--botw-sheikah);
+}
+
+@keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .hero {
+        grid-template-columns: 1fr;
+    }
+
+    .hero-content {
+        padding: 6rem 2rem;
+    }
+
+    .hero-title {
+        font-size: 3rem;
+    }
+
+    .nav-links {
+        display: none;
+    }
+}
+
+/* Glitch effect */
+.glitch {
+    position: relative;
+}
+
+.glitch::before,
+.glitch::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    clip: rect(0, 900px, 0, 0);
+}
+
+.glitch::before {
+    left: 2px;
+    text-shadow: -1px 0 var(--secondary-pink);
+    animation: glitch-anim 2s infinite linear alternate-reverse;
+}
+
+.glitch::after {
+    left: -2px;
+    text-shadow: 1px 0 var(--primary-blue);
+    animation: glitch-anim 3s infinite linear alternate-reverse;
+}
+
+@keyframes glitch-anim {
+    0% { clip: rect(76px, 900px, 88px, 0); }
+    20% { clip: rect(12px, 900px, 137px, 0); }
+    40% { clip: rect(54px, 900px, 5px, 0); }
+    60% { clip: rect(29px, 900px, 95px, 0); }
+    80% { clip: rect(64px, 900px, 31px, 0); }
+    100% { clip: rect(43px, 900px, 69px, 0); }
+}
+
+/* Cursor glow effect */
+.cursor-glow {
+    width: 20px;
+    height: 20px;
+    background: var(--secondary-pink);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;  /* This ensures the orb doesn't interfere with clicking */
+    z-index: 9999;
+    transform: translate(-50%, -50%);  /* Centers the orb on the cursor */
+    mix-blend-mode: screen;  /* Creates a nice glowing effect */
+    opacity: 0.8;
+    
+    /* Multiple box shadows create a more intense glow */
+    box-shadow: 
+        0 0 10px var(--secondary-pink),
+        0 0 20px var(--secondary-pink),
+        0 0 30px var(--secondary-pink),
+        0 0 40px var(--secondary-pink);
+        
+    /* Smooth movement animation */
+    transition: width 0.2s, height 0.2s;
+}
+
+/* Optional: Make the orb larger when hovering over links */
+.cursor-glow.hover {
+    width: 40px;
+    height: 40px;
+    background: var(--accent-gold);
+    box-shadow: 
+        0 0 10px var(--accent-gold),
+        0 0 20px var(--accent-gold),
+        0 0 30px var(--accent-gold),
+        0 0 40px var(--accent-gold);
+}
+
+/* Enhanced static transition effect */
+.static-transition {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    background: #000;
+    overflow: hidden;
+    transition: opacity 0.3s ease; /* Add smooth fade out */
+}
+
+/* RGB Split and Glitch Effects */
+.static-transition::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        linear-gradient(0deg, transparent 0%, rgba(32, 128, 255, 0.2) 2%, transparent 3%),
+        repeating-linear-gradient(0deg, 
+            rgba(0,0,0,0.1) 0px, 
+            rgba(0,0,0,0.1) 1px,
+            transparent 1px, 
+            transparent 2px
+        );
+    mix-blend-mode: color-dodge;
+    animation: glitchLines 0.2s steps(2) infinite;
+}
+
+.static-transition.active {
+    opacity: 1;
+    visibility: visible;
+    animation: 
+        noiseAnimation 0.1s steps(2) infinite,
+        rgbSplit 0.05s steps(2) infinite,
+        flicker 0.2s infinite; /* Shortened from 0.3s */
+}
+
+/* Noise texture */
+@keyframes noiseAnimation {
+    0%, 100% { transform: translate(0); filter: hue-rotate(0deg); }
+    10% { transform: translate(-1%, -1%); filter: hue-rotate(20deg); }
+    20% { transform: translate(1%, 1%); filter: hue-rotate(-20deg); }
+    30% { transform: translate(-2%, -2%); filter: hue-rotate(40deg); }
+    40% { transform: translate(2%, -1%); filter: hue-rotate(-40deg); }
+    50% { transform: translate(-3%, 2%); filter: hue-rotate(60deg); }
+    60% { transform: translate(3%, 1%); filter: hue-rotate(-60deg); }
+    70% { transform: translate(-2%, -2%); filter: hue-rotate(80deg); }
+    80% { transform: translate(2%, 2%); filter: hue-rotate(-80deg); }
+    90% { transform: translate(-1%, -1%); filter: hue-rotate(100deg); }
+}
+
+/* RGB Split effect */
+@keyframes rgbSplit {
+    0% {
+        text-shadow: 
+            -2px 0 rgba(255,0,0,0.5),
+            2px 0 rgba(0,255,0,0.5),
+            0 0 rgba(0,0,255,0.5);
+        filter: saturate(150%) brightness(1.2);
+    }
+    50% {
+        text-shadow: 
+            2px 0 rgba(255,0,0,0.5),
+            -2px 0 rgba(0,255,0,0.5),
+            0 0 rgba(0,0,255,0.5);
+        filter: saturate(200%) brightness(0.8);
+    }
+    100% {
+        text-shadow: 
+            -2px 0 rgba(255,0,0,0.5),
+            2px 0 rgba(0,255,0,0.5),
+            0 0 rgba(0,0,255,0.5);
+        filter: saturate(150%) brightness(1.2);
+    }
+}
+
+/* Scanlines effect */
+@keyframes glitchLines {
+    0% { transform: translateX(0); }
+    50% { transform: translateX(-1px); }
+    100% { transform: translateX(1px); }
+}
+
+/* Flicker animation */
+@keyframes flicker {
+    0% { opacity: 1; }
+    5% { opacity: 0.8; }
+    10% { opacity: 1; }
+    15% { opacity: 0.3; }
+    20% { opacity: 1; }
+    80% { opacity: 0.8; }
+    85% { opacity: 0.2; }
+    90% { opacity: 1; }
+}
+
