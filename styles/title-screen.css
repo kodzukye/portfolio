@@ -313,3 +313,53 @@ body {
 .page-transition.active {
     transform: translateY(0%);
 }
+
+/* Update the title-screen styling */
+.title-screen {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    opacity: 0; /* Start with everything hidden */
+    transition: opacity 0.5s ease;
+}
+
+.title-screen.visible {
+    opacity: 1;
+}
+
+/* Improve video container to eliminate side spaces */
+.video-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    overflow: hidden;
+    z-index: -1;
+}
+
+#youtube-background {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    /* Make the iframe larger than the viewport to avoid black bars */
+    width: 150vw;
+    height: 150vh;
+}
+
+#youtube-background iframe {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(1.7); /* Increased scale for better coverage */
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
