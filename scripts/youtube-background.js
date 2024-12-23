@@ -1,7 +1,9 @@
 let player;
 let videoLoaded = false;
+const VIDEO_ASPECT_RATIO = 16/9;
 
-function initializePlayer() {
+// This function is called automatically by YouTube API
+function onYouTubeIframeAPIReady() {
     // Detect mobile devices
     const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
     
@@ -15,38 +17,11 @@ function initializePlayer() {
             iv_load_policy: 3,
             loop: 1,
             modestbranding: 1,
-            playsinline: 1, // Essential for iOS
-            rel: 0,
-            showinfo: 0,
-            mute: 1,
-            // Adjust quality based on device
-            vq: isMobile ? 'hd720' : 'hd1080'
-        },
-        events: {
-            'onReady': onPlayerReady,
-            'onStateChange': onPlayerStateChange,
-            'onPlaybackQualityChange': onQualityChange
-        }
-    });
-}
-
-function onYouTubeIframeAPIReady() {
-    player = new YT.Player('youtube-background', {
-        videoId: '4HlEiocsR8M', // Your YouTube video ID
-        playerVars: {
-            autoplay: 1,
-            controls: 0,
-            disablekb: 1,
-            fs: 0,
-            iv_load_policy: 3,
-            loop: 1,
-            modestbranding: 1,
             playsinline: 1,
             rel: 0,
             showinfo: 0,
             mute: 1,
-            // Request highest quality possible
-            vq: 'hd1080'
+            vq: isMobile ? 'hd720' : 'hd1080'
         },
         events: {
             'onReady': onPlayerReady,
@@ -61,11 +36,15 @@ function onPlayerReady(event) {
     player.setPlaybackQuality('hd1080');
     event.target.playVideo();
     
-    // Create a playlist with the same video to enable true looping
+    // Create a playlist for true looping
     player.loadPlaylist({
         playlist: ['4HlEiocsR8M'],
         listType: 'playlist'
     });
+    
+    // Handle video sizing
+    resizeVideo();
+    window.addEventListener('resize', debounce(resizeVideo, 250));
 }
 
 function onPlayerStateChange(event) {
@@ -103,9 +82,6 @@ function handleKeyPress(e) {
         startGame();
     }
 }
-
-// We'll store the video's aspect ratio (16:9 is standard for YouTube)
-const VIDEO_ASPECT_RATIO = 16/9;
 
 function resizeVideo() {
     const container = document.querySelector('.video-container');
@@ -167,19 +143,18 @@ function debounce(func, wait) {
 
 // Initialize everything when the page loads
 document.addEventListener('DOMContentLoaded', () => {
-    // Create script tag for YouTube API
+    // Load YouTube API
     const tag = document.createElement('script');
     tag.src = "https://www.youtube.com/iframe_api";
     const firstScriptTag = document.getElementsByTagName('script')[0];
     firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
     
-    // Add a loading indicator if needed
+    // Add loading indicator
     const videoContainer = document.querySelector('.video-container');
     videoContainer.insertAdjacentHTML('beforeend', '<div class="loading">Loading...</div>');
 
-    // Handle orientation changes on mobile devices
+    // Handle mobile orientation changes
     window.addEventListener('orientationchange', () => {
-        setTimeout(resizeVideo, 100); // Short delay to allow orientation to complete
+        setTimeout(resizeVideo, 100);
     });
 });
-
