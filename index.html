@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio</title>
+    <link rel="stylesheet" href="styles/title-screen.css">
+    <link rel="icon" href="../assets/images/icons/triforce-icon.png">
+    <script src="scripts/translations.js" defer></script>
+    <script src="scripts/title-screen.js" defer></script>
+</head>
+<body>
+    <div class="video-container">
+        <video autoplay muted loop id="bgVideo">
+            <source src="assets/videos/background.mp4" type="video/mp4">
+        </video>
+        <div class="video-overlay"></div>
+    </div>
+
+    <div class="title-screen">
+        <h1 class="game-title">Portfolio</h1>
+
+        <div class="menu-container">
+            <button class="menu-button start-btn">
+                <span class="button-text" data-translate="start">Start</span>
+            </button>
+            <button class="menu-button options-btn">
+                <span class="button-text" data-translate="options">Options</span>
+            </button>
+            <button class="menu-button credits-btn">
+                <span class="button-text" data-translate="credits">Credits</span>
+            </button>
+        </div>
+
+        <div class="press-prompt" data-translate="pressAnyKey">
+            Press Any Key to Continue
+        </div>
+    </div>
+
+    <div class="options-menu hidden">
+        <div class="options-content">
+            <h2>Options</h2>
+            <div class="option-group">
+                <h3>Audio</h3>
+                <div class="option-item">
+                    <label data-translate="soundEffects">Sound Effects</label>
+                    <input type="checkbox" id="sfx-toggle" checked>
+                </div>
+            </div>
+
+            <div class="option-group">
+                <h3 data-translate="language">Language</h3>
+                <div class="language-selector">
+                    <button class="language-btn active" data-lang="en">English</button>
+                    <button class="language-btn" data-lang="fr">Français</button>
+                </div>
+            </div>
+
+            <button class="back-button" data-translate="back">Back</button>
+        </div>
+    </div>
+
+</body>
+</html>
